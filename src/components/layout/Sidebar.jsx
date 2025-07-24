@@ -1,15 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = ({ collapsed = false }) => {
-    const router = useLocation();
+    const location = useLocation();
 
     const navLinks = [
         { href: 'accueil', icon: 'fas fa-home', name: 'Accueil' },
-        { href: 'users', icon: 'fas fa-users', name: 'Utilisateurs' },
-        { href: 'products', icon: 'fas fa-box', name: 'Produits' },
-        { href: 'orders', icon: 'fas fa-shopping-cart', name: 'Commandes' },
-        { href: 'customers', icon: 'fas fa-user-friends', name: 'Clients' },
-        { href: 'reports', icon: 'fas fa-file-alt', name: 'Rapports' }
+        { href: 'boutiques', icon: 'fas fa-store', name: 'Boutiques' },
+        { href: 'categories', icon: 'fas fa-tags', name: 'Catégories' },
+        { href: 'articles', icon: 'fas fa-box', name: 'Articles' },
+        { href: 'commandes', icon: 'fas fa-shopping-cart', name: 'Commandes' },
+        { href: 'clients', icon: 'fas fa-user-friends', name: 'Clients' },
+        { href: 'utilisateurs', icon: 'fas fa-users', name: 'Utilisateurs' },
+        { href: 'rapports', icon: 'fas fa-file-alt', name: 'Rapports' }
     ];
 
     return (
@@ -21,7 +23,7 @@ const Sidebar = ({ collapsed = false }) => {
                 <nav className="flex-1 mt-2 px-2 py-4 space-y-2 overflow-y-auto">
                     {navLinks.map(link => (
                         <Navlink key={link.href} href={link.href} icon={link.icon} 
-                                active={router.pathname === `/${link.href}`} collapsed={collapsed}>
+                                active={location.pathname === `/${link.href}`} collapsed={collapsed}>
                             {link.name}
                         </Navlink>
                     ))}
