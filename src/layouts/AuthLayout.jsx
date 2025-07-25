@@ -3,6 +3,7 @@ import Navbar from "../components/layout/Navbar";
 import Sidebar from "../components/layout/Sidebar";
 import Footer from "../components/layout/Footer";
 import { useState } from "react";
+import PrivateRoute from "../config/PrivateRoute";
 
 const AuthLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -11,24 +12,26 @@ const AuthLayout = () => {
 
     
     return (
-        <div className="min-h-screen bg-gray-50">
-            <Navbar onToggle={toggleSidebar} />
+        <PrivateRoute>
+            <div className="min-h-screen bg-gray-50">
+                <Navbar onToggle={toggleSidebar} />
 
-            <div className="flex">
-                <Sidebar collapsed={collapsed} />
+                <div className="flex">
+                    <Sidebar collapsed={collapsed} />
 
-                <main className={`flex-1 transition-all duration-300 ${collapsed ? 'ml-16' : 'ml-64'}`}>
-                    <div className="p-6 min-h-[calc(100vh-3rem)]">
-                        <div className="bg-white rounded-lg shadow-sm p-6 mt-15 mb-6">
-                            <Outlet />
+                    <main className={`flex-1 transition-all duration-300 ${collapsed ? 'ml-16' : 'ml-64'}`}>
+                        <div className="p-6 min-h-[calc(100vh-3rem)]">
+                            <div className="bg-white rounded-lg shadow-sm p-6 mt-15 mb-6">
+                                <Outlet />
+                            </div>
                         </div>
-                    </div>
 
-                    <Footer />
-                </main>
+                        <Footer />
+                    </main>
+                </div>
             </div>
-        </div>
-    )
+        </PrivateRoute>
+    );
 }
 
 export default AuthLayout;

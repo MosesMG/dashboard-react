@@ -50,7 +50,7 @@ const ListeStore = () => {
                 </table>
             </div>
         </div>
-    )
+    );
 }
 
 export default ListeStore;

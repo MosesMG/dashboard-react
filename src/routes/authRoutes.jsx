@@ -6,35 +6,29 @@ import ListeClients from "../pages/customers/ListeClients";
 import ListeOrders from "../pages/orders/ListeOrders";
 import ListeStore from "../pages/stores/ListeStore";
 import Users from "../pages/Users";
-import PrivateRoute from "./PrivateRoutes";
 
 export default [
-    {
-        // element: <PrivateRoute />,
+    { 
+        element: <AuthLayout />,
         children: [
-            { 
-                element: <AuthLayout />,
-                children: [
-                    { path: 'accueil', element: <Accueil />, name: 'accueil' },
-                    { path: 'utilisateurs', element: <Users />, name: 'users' },
-                    { path: 'boutiques', children: [
-                        { path: '', element: <ListeStore />, name: 'boutiques.liste' }
-                    ] },
-                    { path: 'categories', children: [
-                        { path: '', element: <ListeCategorie />, name: 'categories.liste' }
-                    ] },
-                    { path: 'articles', children: [
-                        { path: '', element: <ListeArticle />, name: 'articles.liste' }
-                    ] },
-                    { path: 'commandes', children: [
-                        { path: '', element: <ListeOrders />, name: 'commandes.liste' }
-                    ] },
-                    { path: 'clients', children: [
-                        { path: '', element: <ListeClients />, name: 'clients.liste' }
-                    ] }
-                    
-                ]
-            }
+            { path: 'accueil', element: <Accueil />, name: 'accueil' },
+            { path: 'utilisateurs', element: <Users />, name: 'users' },
+            { path: 'boutiques', children: [
+                { path: '', element: <ListeStore />, name: 'boutiques.liste' }
+            ] },
+            { path: 'categories', children: [
+                { path: '', element: <ListeCategorie />, name: 'categories.liste' }
+            ] },
+            { path: 'articles', children: [
+                { path: '', element: <ListeArticle />, name: 'articles.liste' }
+            ] },
+            { path: 'commandes', children: [
+                { path: '', element: <ListeOrders />, name: 'commandes.liste' }
+            ] },
+            { path: 'clients', children: [
+                { path: '', element: <ListeClients />, name: 'clients.liste' }
+            ] }
+            
         ]
     }
 ];
