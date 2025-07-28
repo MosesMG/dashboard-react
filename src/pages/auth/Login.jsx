@@ -1,17 +1,20 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import useAuth from "../../context/AuthContext";
 import PageTitle from "../../components/ui/PageTitle";
-import axiosClient from "../../services/axios";
 
 const Login = () => {
-    const { login } = useAuth();
-    const navigate = useNavigate();
+    const { login, errors, setErrors } = useAuth();
+    // const navigate = useNavigate();
+    // const location = useLocation();
+
+    // const from = location.state?.from?.pathname || '/accueil';
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
-    const [errors, setErrors] = useState({});
+    // const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -23,20 +26,9 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setErrors({});
+        setErrors([]);
 
-        try {
-            // await axiosClient.get('/sanctum/csrf-cookie');
-            await login(formData);
-            navigate('/accueil')
-        } catch (error) {
-            if (error.erros) {
-                setErrors(error.errors);
-            } else {
-                console.error("Erreur de connexion: ", error);
-                // setErrors({ general: "Une erreur s'est produite lors de la connexion." });
-            }
-        }
+        login(formData);
     }
 
     return (
@@ -56,8 +48,7 @@ const Login = () => {
                         />
                         { errors.email &&
                             <span className="text-red-500 text-xs">
-                                <i className="fa fa-exclamation-triangle mr-1"></i>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                <i className="fa fa-exclamation-triangle mr-1"></i>{errors.email[0]}
                             </span>
                         }
                     </div>
@@ -75,8 +66,7 @@ const Login = () => {
                         </div>
                         { errors.password && 
                             <span className="text-red-500 text-xs">
-                                <i className="fa fa-exclamation-triangle mr-1"></i>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                <i className="fa fa-exclamation-triangle mr-1"></i>{errors.password[0]}
                             </span>
                         }
                     </div>

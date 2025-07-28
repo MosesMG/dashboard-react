@@ -1,78 +1,93 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import axiosClient from '../services/axios';
-import { authService } from '../services/auth';
-import { useNavigate } from 'react-router-dom';
+import { createContext, useContext, useEffect, useState } from "react";
+import axiosClient from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
-const AuthContext = createContext();
+const AuthContext = createContext({});
 
-export function useAuth() {
-    return useContext(AuthContext);
-}
-
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [errors, setErrors] = useState([]);
+    // const [authenticated, setAuthenticated] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const loadUser = async () => {
-            try {
-                await axiosClient.get('/sanctum/csrf-cookie');
-                const userData = await authService.getUser();
-                setUser(userData);
-            } catch (error) {
-                setUser(null);
-                console.error("Erreur de connexion: ", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        loadUser();
-    }, []);
+    const csrf = async () => axiosClient.get('/sanctum/csrf-cookie');
 
-    useEffect(() => {
-        const i = axiosClient.interceptors.response.use(
-            r => r,
-            error => {
-                if (error.response?.status === 401) {
-                    setUser(null);
-                    navigate('/login');
-                }
-                return Promise.reject(error);
-            }
-        );
-        return () => axiosClient.interceptors.response.eject(i);
-    }, [navigate]);
+    const getUser = async () => {
+        const { data } = await axiosClient.get('/api/user');
+        setUser(data);
+    }
 
     const login = async (credentials) => {
-        const userData = await authService.login(credentials);
-        setUser(userData);
+        await csrf();
+        try {
+            await axiosClient.post('/login', credentials);
+            getUser();
+            navigate('/accueil');
+        } catch (err) {
+            if (err.response?.status === 422) {
+                setErrors(err.response.data.errors);
+            }
+        }
     }
 
     const register = async (userData) => {
-        await authService.register(userData);
+        await csrf();
+        try {
+            await axiosClient.post('/register', userData);
+            getUser();
+            navigate('/accueil');
+        } catch (err) {
+            if (err.response?.status === 422) {
+                setErrors(err.response.data.errors);
+            }
+        }
     }
+
+    // const login = async (credentials) => {
+    //     try {
+    //         await axiosClient.get('/sanctum/csrf-cookie');
+    //         const response = await axiosClient.post('/login', credentials);
+    //         setUser(response.data.user);
+    //         return { success: true };
+    //     } catch (error) {
+    //         if (error.response?.status === 422) {
+    //             return {
+    //                 success: false,
+    //                 errors: error.response.data.errors
+    //             };
+    //         } else if (error.response?.status === 401) {
+    //             return {
+    //                 success: false,
+    //                 errors: { email: ['Identifiants incorrects.'] }
+    //             };
+    //         }
+    //         return {
+    //             success: false,
+    //             errors: { general: ['Une erreur est survenue.'] }
+    //         };
+    //     }
 
     const logout = async () => {
-        await authService.logout();
-        setUser(null);
-    }
-
-    const forgotPassword = async (email) => {
-        await authService.forgotPassword(email);
-    }
-
-    const resetPassword = async (data) => {
-        await authService.resetPassword(data);
-    }
+        try {
+            await axiosClient.post('/logout');
+            setUser(null);
+        } catch (error) {
+            console.log('Erreur de déconnexion: ', error);
+        }
+    };
 
     const value = {
-        user, loading, login, register, logout, forgotPassword, resetPassword
+        user, errors, setErrors, getUser,
+        login, register, logout
     };
 
     return (
         <AuthContext.Provider value={value}>
-            { !loading && children }
+            {children}
         </AuthContext.Provider>
     );
 };
+
+export default function useAuth() {
+    return useContext(AuthContext);
+}

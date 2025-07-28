@@ -1,18 +1,18 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Sidebar from "../components/layout/Sidebar";
 import Footer from "../components/layout/Footer";
 import { useState } from "react";
-import PrivateRoute from "../config/PrivateRoute";
+import useAuth from "../context/AuthContext";
 
 const AuthLayout = () => {
-    const [collapsed, setCollapsed] = useState(false);
+    const { user } = useAuth();
 
+    const [collapsed, setCollapsed] = useState(false);
     const toggleSidebar = () => setCollapsed(!collapsed);
 
-    
-    return (
-        <PrivateRoute>
+    if (user) {
+        return (
             <div className="min-h-screen bg-gray-50">
                 <Navbar onToggle={toggleSidebar} />
 
@@ -30,8 +30,10 @@ const AuthLayout = () => {
                     </main>
                 </div>
             </div>
-        </PrivateRoute>
-    );
+        );
+    } else {
+        <Navigate to="/login" />
+    }
 }
 
 export default AuthLayout;
