@@ -1,18 +1,31 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Sidebar from "../components/layout/Sidebar";
 import Footer from "../components/layout/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../context/AuthContext";
+import Loader from "../components/ui/Loader";
 
 const AuthLayout = () => {
-    const { user } = useAuth();
-
+    const { user, loading } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
     const [collapsed, setCollapsed] = useState(false);
     const toggleSidebar = () => setCollapsed(!collapsed);
 
-    if (user) {
-        return (
+    useEffect(() => {
+        if (!loading && !user) {
+            navigate('/login', {
+                replace: true,
+                state: { from: location.pathname },
+            });
+        }
+    }, [user, loading, location]);
+
+    if (loading) return <Loader />;
+
+    return (
+        user && (
             <div className="min-h-screen bg-gray-50">
                 <Navbar onToggle={toggleSidebar} />
 
@@ -30,10 +43,8 @@ const AuthLayout = () => {
                     </main>
                 </div>
             </div>
-        );
-    } else {
-        <Navigate to="/login" />
-    }
+        )
+    );
 }
 
 export default AuthLayout;

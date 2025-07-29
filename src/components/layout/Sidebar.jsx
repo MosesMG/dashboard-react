@@ -1,6 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
+import useAuth from "../../context/AuthContext";
 
 const Sidebar = ({ collapsed = false }) => {
+    const { user } = useAuth();
     const location = useLocation();
 
     const navLinks = [
@@ -38,8 +40,8 @@ const Sidebar = ({ collapsed = false }) => {
                             </div>
                         </div>
                         <div className={`ml-3 transition-opacity duration-300 ${collapsed ? 'hidden' : 'block'}`}>
-                            <p className="text-sm font-medium text-gray-900">John Doe</p>
-                            <p className="text-xs text-gray-500">Administrateur</p>
+                            <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+                            <p className="text-xs text-gray-500">{user?.email}</p>
                         </div>
                     </div>
                 </div>
@@ -50,10 +52,10 @@ const Sidebar = ({ collapsed = false }) => {
 
 function Navlink({ href, collapsed, icon, active, children }) {
     return (
-        <Link to={href}
+        <Link to={href} title={collapsed && children}
             className={`group flex items-center p-3 font-semibold rounded-lg
                     ${active ? 'text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg'
-                    : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-colors'}`}>    
+                    : 'text-gray-500 hover:bg-white hover:text-gray-900 transition-colors'}`}>    
             <i className={icon}></i>
             <span className={`${collapsed ? 'h-6' : 'ml-3 uppercase transition-opacity duration-300'}`}>
                 {!collapsed && children}

@@ -1,22 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useAuth from "../../context/AuthContext";
 import PageTitle from "../../components/ui/PageTitle";
 
 const Login = () => {
     const { login, errors, setErrors } = useAuth();
-    // const navigate = useNavigate();
-    // const location = useLocation();
-
-    // const from = location.state?.from?.pathname || '/accueil';
 
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
-    // const [errors, setErrors] = useState({});
+    
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from || '/accueil';
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,9 +26,15 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setErrors([]);
+        setErrors({});
 
-        login(formData);
+        const result = await login(formData);
+        
+        if (result.success) {
+            navigate(from, { replace: true });
+        } else {
+            setLoading(false);
+        }
     }
 
     return (
@@ -44,7 +50,7 @@ const Login = () => {
                     <div>
                         <label htmlFor="email" className="block text-gray-700 text-sm font-semibold mb-1">Email</label>
                         <input type="email" onChange={handleChange} id="email" name="email" required
-                            className="w-full px-4 py-2 border border-gray-400 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                            className="w-full p-2 border border-gray-400 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                         />
                         { errors.email &&
                             <span className="text-red-500 text-xs">
@@ -57,7 +63,7 @@ const Login = () => {
                         <label htmlFor="password" className="block text-gray-700 text-sm font-semibold mb-1">Mot de passe</label>
                         <div className="relative">
                             <input type={!showPassword ? "password" : "text"} onChange={handleChange} id="password" name="password" required
-                                className="w-full px-4 py-2 border border-gray-400 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                className="w-full p-2 border border-gray-400 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                             />
                             <button type="button" onClick={() => setShowPassword(!showPassword)}
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 hover:cursor-pointer">

@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../context/AuthContext";
 
 const Navbar = ({ onToggle }) => {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -16,6 +18,14 @@ const Navbar = ({ onToggle }) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await logout();
+        navigate('/login');
+    }
 
     return (
         <nav className="bg-white shadow-lg border-b border-gray-200 fixed w-full top-0 z-50">
@@ -73,7 +83,7 @@ const Navbar = ({ onToggle }) => {
                                 <div className="h-9 w-9 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
                                     <i className="fas fa-user text-white text-sm"></i>
                                 </div>
-                                <span className="hidden md:block text-sm font-medium text-gray-700">John Doe</span>
+                                <span className="hidden md:block text-sm font-medium text-gray-700">{user?.name}</span>
                                 <i className="fas fa-chevron-down text-xs text-gray-400"></i>
                             </button>
 
@@ -91,11 +101,11 @@ const Navbar = ({ onToggle }) => {
                                         Paramètres
                                     </a>
                                     <hr className="my-1 border-gray-200" />
-                                    <a href="#"
-                                        className="flex items-center px-4 py-2 my-1 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    <button type="submit" onClick={handleLogout}
+                                        className="flex items-center w-full px-4 py-2 my-1 text-sm text-gray-700 hover:cursor-pointer hover:bg-gray-100 transition-colors">
                                         <i className="fas fa-sign-out-alt mr-3 text-gray-400"></i>
                                         Déconnexion
-                                    </a>
+                                    </button>
                                 </div>
                             )}
                         </div>
@@ -103,7 +113,7 @@ const Navbar = ({ onToggle }) => {
                 </div>
             </div>
         </nav>
-    )
+    );
 }
 
 export default Navbar;

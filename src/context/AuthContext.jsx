@@ -1,20 +1,25 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axiosClient from "../api/axios";
-import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [errors, setErrors] = useState([]);
-    // const [authenticated, setAuthenticated] = useState(false);
-    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     const csrf = async () => axiosClient.get('/sanctum/csrf-cookie');
 
     const getUser = async () => {
-        const { data } = await axiosClient.get('/api/user');
-        setUser(data);
+        try {
+            const { data } = await axiosClient.get('/api/user');
+            setUser(data);
+        } catch (err) {
+            setUser(null);
+            throw (err);
+        } finally {
+            setLoading(false);
+        }
     }
 
     const login = async (credentials) => {
@@ -22,10 +27,13 @@ export const AuthProvider = ({ children }) => {
         try {
             await axiosClient.post('/login', credentials);
             getUser();
-            navigate('/accueil');
+            return { success: true }
         } catch (err) {
             if (err.response?.status === 422) {
-                setErrors(err.response.data.errors);
+                return {
+                    success: false,
+                    errors: setErrors(err.response.data.errors),
+                }
             }
         }
     }
@@ -35,37 +43,16 @@ export const AuthProvider = ({ children }) => {
         try {
             await axiosClient.post('/register', userData);
             getUser();
-            navigate('/accueil');
+            return { success: true }
         } catch (err) {
             if (err.response?.status === 422) {
-                setErrors(err.response.data.errors);
+                return {
+                    success: false,
+                    errors: setErrors(err.response.data.errors),
+                }
             }
         }
     }
-
-    // const login = async (credentials) => {
-    //     try {
-    //         await axiosClient.get('/sanctum/csrf-cookie');
-    //         const response = await axiosClient.post('/login', credentials);
-    //         setUser(response.data.user);
-    //         return { success: true };
-    //     } catch (error) {
-    //         if (error.response?.status === 422) {
-    //             return {
-    //                 success: false,
-    //                 errors: error.response.data.errors
-    //             };
-    //         } else if (error.response?.status === 401) {
-    //             return {
-    //                 success: false,
-    //                 errors: { email: ['Identifiants incorrects.'] }
-    //             };
-    //         }
-    //         return {
-    //             success: false,
-    //             errors: { general: ['Une erreur est survenue.'] }
-    //         };
-    //     }
 
     const logout = async () => {
         try {
@@ -77,9 +64,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     const value = {
-        user, errors, setErrors, getUser,
+        user, errors, setErrors, getUser, loading,
         login, register, logout
     };
+
+    useEffect(() => {
+        getUser();
+    }, []);
 
     return (
         <AuthContext.Provider value={value}>
