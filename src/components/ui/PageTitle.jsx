@@ -2,7 +2,9 @@ import { useEffect } from "react";
 
 const PageTitle = ({ title }) => {
     useEffect(() => {
-        document.title = title;
+        if (title) {
+            document.title = title;
+        }
     }, [title])
 
     return null;
