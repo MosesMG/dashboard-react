@@ -1,12 +1,12 @@
 import axiosClient from "../../api/axios";
 
-const DeleteForm = ({ id, name, onCancel }) => {
+const DeleteForm = ({ id, name, onCancel, onSuccess }) => {
     const handleDelete = async (e) => {
         e.preventDefault();
 
         try {
             await axiosClient.delete(`/api/boutiques/${id}`, id);
-            onCancel();
+            onSuccess();
         } catch (err) {
             console.error('Erreur: ', err.respnse?.data || err.message);
         }

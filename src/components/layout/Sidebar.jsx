@@ -17,11 +17,10 @@ const Sidebar = ({ collapsed = false }) => {
     ];
 
     return (
-        <aside className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-gray-50 shadow-lg border-r border-gray-200
+        <aside className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-gray-200 shadow-lg border-r border-gray-200
                 transition-all duration-300 z-40 ${collapsed ? 'w-16' : 'w-64'}`}>
 
             <div className="flex flex-col h-full">
-
                 <nav className="flex-1 mt-2 px-2 py-4 space-y-2 overflow-y-auto">
                     {navLinks.map(link => (
                         <Navlink key={link.href} href={link.href} icon={link.icon} 
@@ -31,7 +30,7 @@ const Sidebar = ({ collapsed = false }) => {
                     ))}
                 </nav>
 
-                <div className="px-4 py-3 border-t border-gray-200">
+                <div className="px-4 py-3 border-t border-gray-400">
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
                             <div
@@ -55,7 +54,7 @@ function Navlink({ href, collapsed, icon, active, children }) {
         <Link to={href} title={collapsed && children}
             className={`group flex items-center p-3 font-semibold rounded-lg
                     ${active ? 'text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg'
-                    : 'text-gray-500 hover:bg-white hover:text-gray-900 transition-colors'}`}>    
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors'}`}>    
             <i className={icon}></i>
             <span className={`${collapsed ? 'h-6' : 'ml-3 uppercase transition-opacity duration-300'}`}>
                 {!collapsed && children}
