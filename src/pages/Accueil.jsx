@@ -2,6 +2,18 @@ import { useEffect } from "react";
 import useAuth from "../context/AuthContext";
 import PageTitle from "../components/ui/PageTitle";
 import Breadcrumb from "../components/ui/BreadCrumb";
+import Bars from "../components/chart.js/Bars";
+// import { CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from "chart.js";
+// import { Bar } from "react-chartjs-2";
+
+import sourceData from '../data/sourceData.json';
+
+// const data1 = [
+//     { label: 'Jan', value: 100 },
+//     { label: 'Feb', value: 200 },
+//     { label: 'Mar', value: 300 },
+// ];
+
 
 const Accueil = () => {
     const { user, getUser } = useAuth();
@@ -67,14 +79,16 @@ const Accueil = () => {
                     </div>
                 </div>
 
+                {/* <Bars sourceData={sourceData} /> */}
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="bg-white border border-gray-300 rounded-lg p-6">
                         <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                            <i className="fas fa-chart-line text-blue-500 mr-2"></i>
+                            <i className="fas fa-chart-simple text-blue-500 mr-2"></i>
                             Évolution des Ventes
                         </h3>
                         <div className="h-64 bg-gray-50 rounded flex items-center justify-center">
-                            <p className="text-gray-500">Graphique des ventes</p>
+                            <Bars sourceData={sourceData} />
                         </div>
                     </div>
 
