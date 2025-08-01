@@ -1,62 +1,86 @@
 [
     {
         "label": "Jan",
-        "revenue": 64854,
-        "cost": 32652
+        "revenue": 40000,
+        "loss": 30000,
+        "expense": 20000,
+        "investment": 10000
     },
     {
-        "label": "Feb",
-        "revenue": 54628,
-        "cost": 42393
+        "label": "Fév",
+        "revenue": 39500,
+        "loss": 29000,
+        "expense": 19000,
+        "investment": 10000
     },
     {
         "label": "Mar",
-        "revenue": 117238,
-        "cost": 50262
+        "revenue": 40500,
+        "loss": 31000,
+        "expense": 20000,
+        "investment": 8500
     },
     {
-        "label": "Apr",
-        "revenue": 82830,
-        "cost": 64731
+        "label": "Avr",
+        "revenue": 39000,
+        "loss": 29500,
+        "expense": 21000,
+        "investment": 9500
     },
     {
-        "label": "May",
-        "revenue": 91208,
-        "cost": 41893
+        "label": "Mai",
+        "revenue": 41000,
+        "loss": 30000,
+        "expense": 19000,
+        "investment": 10000
     },
     {
         "label": "Jun",
-        "revenue": 103609,
-        "cost": 83809
+        "revenue": 40000,
+        "loss": 29000,
+        "expense": 20000,
+        "investment": 11000
     },
     {
         "label": "Jul",
-        "revenue": 90974,
-        "cost": 44772
+        "revenue": 39500,
+        "loss": 31000,
+        "expense": 19500,
+        "investment": 10000
     },
     {
-        "label": "Aug",
-        "revenue": 82919,
-        "cost": 37590
+        "label": "Aou",
+        "revenue": 40500,
+        "loss": 30500,
+        "expense": 20000,
+        "investment": 9000
     },
     {
-        "label": "Sep",
-        "revenue": 62407,
-        "cost": 43349
+        "label": "Sept",
+        "revenue": 40000,
+        "loss": 30000,
+        "expense": 20000,
+        "investment": 10000
     },
     {
         "label": "Oct",
-        "revenue": 82528,
-        "cost": 45324
+        "revenue": 39000,
+        "loss": 29500,
+        "expense": 19500,
+        "investment": 11000
     },
     {
         "label": "Nov",
-        "revenue": 56979,
-        "cost": 47978
+        "revenue": 40500,
+        "loss": 30000,
+        "expense": 20000,
+        "investment": 9500
     },
     {
-        "label": "Dec",
-        "revenue": 87436,
-        "cost": 39175
+        "label": "Déc",
+        "revenue": 40000,
+        "loss": 30500,
+        "expense": 19000,
+        "investment": 10500
     }
 ]

@@ -34,7 +34,7 @@ const AuthLayout = () => {
 
                     <main className={`flex-1 transition-all duration-300 ${collapsed ? 'ml-16' : 'ml-64'}`}>
                         <div className="p-6 min-h-[calc(100vh-3rem)]">
-                            <div className="bg-white rounded-lg shadow-sm p-6 mt-15 mb-6">
+                            <div className="bg-white rounded-lg shadow-sm p-6 mt-16 mb-6">
                                 <Outlet />
                             </div>
                         </div>

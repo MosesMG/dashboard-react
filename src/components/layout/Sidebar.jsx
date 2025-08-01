@@ -30,7 +30,7 @@ const Sidebar = ({ collapsed = false }) => {
                     ))}
                 </nav>
 
-                <div className="px-4 py-3 border-t border-gray-400">
+                <div className="px-4 py-2 border-t border-gray-400">
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
                             <div

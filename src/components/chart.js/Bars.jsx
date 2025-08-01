@@ -29,12 +29,14 @@ export default function Bars({ sourceData }) {
             {
                 label: 'Revenues',
                 data: sourceData.map((d) => d.revenue),
-                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                borderRadius: 5,
             },
             {
                 label: 'Pertes',
                 data: sourceData.map((d) => d.loss),
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                borderRadius: 5,
             },
         ],
     }), [sourceData]);
@@ -43,7 +45,10 @@ export default function Bars({ sourceData }) {
         responsive: true,
         plugins: {
             legend: { position: 'top' },
-            title: { display: true, text: 'Exemple de Bar Chart' },
+            title: {
+                display: true,
+                text: 'Représentation avec les barres'
+            },
         },
     };
 

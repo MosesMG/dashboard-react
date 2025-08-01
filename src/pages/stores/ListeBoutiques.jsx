@@ -72,7 +72,7 @@ const ListeBoutiques = () => {
                 <div className="mb-4 flex justify-between items-center">
                     <div className="ms-12">
                         <h1 className="text-2xl font-bold text-gray-800">Liste des boutiques</h1>
-                        <p className="mt-2 text-sm text-gray-600">Total: {boutiques.length} boutiques</p>
+                        <p className="mt-2 text-sm text-gray-600">Total: {boutiques.length} boutique{boutiques.length > 1 ? 's' : ''}</p>
                     </div>
 
                     <button type="button" onClick={() => setShowAddForm(true)}
@@ -99,7 +99,7 @@ const ListeBoutiques = () => {
                                     <td className="px-6 py-3 text-sm text-gray-900">{btiq.nom}</td>
                                     <td className="px-6 py-3 text-sm text-gray-900">{btiq.responsable}</td>
                                     <td className="px-6 py-2">
-                                        <div className="flex justify-center gap-8 text-xs">
+                                        <div className="flex justify-center items-center gap-8 text-xs">
                                             <button type="button" onClick={() => editForm(btiq.id)}
                                                 className="bg-green-500 w-8 h-7 rounded-sm text-white">
                                                 <i className="fa fa-pen"></i>

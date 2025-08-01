@@ -7,6 +7,7 @@ import Accueil from "./pages/Accueil";
 import Register from "./pages/auth/Register";
 import Users from "./pages/Users";
 import ListeBoutiques from "./pages/stores/ListeBoutiques";
+import ListeCategories from "./pages/categories/ListeCategories";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                 <Route element={<AuthLayout />}>
                     <Route path="/accueil" element={<Accueil />} />
                     <Route path="/boutiques" element={<ListeBoutiques />} />
+                    <Route path="/categories" element={<ListeCategories />} />
                     <Route path="/utilisateurs" element={<Users />} />
                 </Route>
             </Routes>
