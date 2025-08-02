@@ -1,11 +1,10 @@
 import { useState } from "react";
 import axiosClient from "../../api/axios";
 
-const AddCategorie = ({ boutiques, onCancel, onSucess }) => {
+const AddCategorie = ({ onCancel, onSucess }) => {
     const [form, setForm] = useState({
         libelle: '',
         description: '',
-        boutique_id: '',
     });
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
@@ -35,17 +34,6 @@ const AddCategorie = ({ boutiques, onCancel, onSucess }) => {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
-            <div>
-                <label htmlFor="boutique_id" className="text-sm text-gray-800 font-semibold">Nom de la boutique</label>
-                <select name="boutique_id" id="boutique_id" onChange={handleChange} required
-                    className="w-full text-sm p-2 border border-gray-400 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-                        <option value="">-- Sélectionner une boutique --</option>
-                        {boutiques.map((boutique) => (
-                            <option key={boutique.id} value={boutique.id}>{boutique.nom}</option>
-                        ))}
-                    </select>
-            </div>
-
             <div>
                 <label htmlFor="libelle" className="text-sm text-gray-800 font-semibold">Libellé</label>
                 <input type="text" name="libelle" id="libelle" required onChange={handleChange}

@@ -11,7 +11,6 @@ const ListeCategories = () => {
         { name: 'Catégories' }
     ];
 
-    const [boutiques, setBoutiques] = useState([]);
     const [categories, setCategories] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
 
@@ -33,7 +32,6 @@ const ListeCategories = () => {
     }
 
     useEffect(() => {
-        axiosClient.get('/api/boutiques').then((result) => setBoutiques(result.data));
         fetchCategories();
     }, []);    
 
@@ -74,7 +72,7 @@ const ListeCategories = () => {
                                     <td className="px-6 py-3 text-sm text-gray-900">{category.id}</td>
                                     <td className="px-6 py-3 text-sm text-gray-900">{category.libelle}</td>
                                     <td className="px-6 py-3 text-sm text-gray-900">{category.description}</td>
-                                    <td className="px-6 py-3 text-sm text-gray-900">{category.boutique.nom}</td>
+                                    <td className="px-6 py-3 text-sm text-gray-900">{category.libelle}</td>
                                     <td className="px-6 py-2">
                                         <div className="flex justify-center items-center gap-8 text-xs">
                                             <button type="button" 
@@ -96,12 +94,11 @@ const ListeCategories = () => {
 
             {showAddForm &&
                 <Modal title="Ajouter une catégorie" onClose={() => setShowAddForm(false)}>
-                    <AddCategorie onCancel={() => setShowAddForm(false)} onSucess={handleSuccess} boutiques={boutiques} />
+                    <AddCategorie onCancel={() => setShowAddForm(false)} onSucess={handleSuccess} />
                 </Modal>
             }
         </>
     );
 }
-
 
 export default ListeCategories;
