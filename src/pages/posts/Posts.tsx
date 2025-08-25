@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import PageTitle from '../components/ui/PageTitle';
+import PageTitle from '../../components/ui/PageTitle';
 import { Link } from 'react-router-dom';
-import type { PostsProps } from '../types';
-import axiosClient from '../api/axios';
+import type { PostsProps } from '../../types';
+import axiosClient from '../../api/axios';
 import { Ban, Pencil, Search, Trash2, X } from 'lucide-react';
-import Dialog from '../components/ui/Dialog';
-import Breadcrumb from '../components/ui/Breadcrumb';
+import Dialog from '../../components/ui/Dialog';
+import Breadcrumb from '../../components/ui/Breadcrumb';
 
 const Posts: React.FC = () => {
     const breadcrumbItems = [
@@ -29,12 +29,17 @@ const Posts: React.FC = () => {
         fetchPosts();
     }, []);
 
+    const [search, setSearch] = useState<string>('');
+    const searchPosts = posts.filter(post =>
+        post.title.toLowerCase().includes(search.toLowerCase())
+    );
+
     const [showDialog, setShowDialog] = useState<boolean>(false);
-    const [id, setId] = useState<number | null>(null);
+    const [id, setId] = useState<string | null>(null);
 
     const [failed, setFailed] = useState<boolean>(false);
 
-    const handleDelete = (postId: number) => {
+    const handleDelete = (postId: string) => {
         setId(postId);
         setShowDialog(true);
     }
@@ -67,6 +72,8 @@ const Posts: React.FC = () => {
                         <input
                             type="text"
                             placeholder="Rechercher un post"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
                             className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg bg-white text-gray-900
                                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64 lg:w-80"
                         />
@@ -99,9 +106,6 @@ const Posts: React.FC = () => {
                                         Description
                                     </th>
                                     <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                        ID
-                                    </th>
-                                    <th className="px-4 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                                         Statut
                                     </th>
                                     <th className="px-4 sm:px-6 py-3 sm:py-4 text-center text-xs font-medium text-gray-700 uppercase tracking-wider">
@@ -110,41 +114,48 @@ const Posts: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {posts.map(post => (
-                                    <tr key={post.id} className="hover:bg-gray-50 transition-colors duration-200">
+                                {searchPosts.map(post => (
+                                    <tr key={post._id} className="hover:bg-gray-50 transition-colors duration-200">
                                         <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                                             <div className="flex items-center">
                                                 <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-xs sm:text-sm">
                                                     {post.title.toUpperCase().split(' ').slice(0, 2).map(n => n[0]).join('')}
                                                 </div>
                                                 <div className="ml-3 sm:ml-4">
-                                                    <div className="text-sm font-medium text-gray-900 line-clamp-2">{post.title}</div>
+                                                    <div className="text-sm font-medium text-gray-900 line-clamp-2">
+                                                        <Link to={`/posts/${post._id}`}>{post.title}</Link>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
+
                                         <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap sm:whitespace-normal">
                                             <div className="text-sm text-gray-600 line-clamp-2">{post.description}</div>
                                         </td>
-                                        <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                            <span className="inline-flex px-2 sm:px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
-                                                {post.id}
-                                            </span>
-                                        </td>
+                                        
                                         <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap hidden sm:table-cell">
                                             <span
-                                                className={`inline-flex px-2 sm:px-3 py-1 text-xs font-semibold rounded-full ${post.status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
+                                                className={`inline-flex px-2 sm:px-3 py-1 text-xs font-semibold rounded-full ${post.status ?
+                                                    'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
                                             >
                                                 {post.status ? 'Actif' : 'Inactif'}
                                             </span>
                                         </td>
+
                                         <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-center">
-                                            <div className="flex justify-center space-x-3">
-                                                <button className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded-lg transition-colors duration-200" aria-label="Modifier le post">
+                                            <div className="flex justify-center space-x-4">
+                                                <Link
+                                                    to={`/posts/${post._id}/edit`}
+                                                    className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded-lg transition-colors duration-200"
+                                                    title="Modifier le post"
+                                                >
                                                     <Pencil className="w-4 h-4" />
-                                                </button>
+                                                </Link>
                                                 <button
-                                                    onClick={() => handleDelete(post.id)}
-                                                    className="text-red-600 hover:text-red-800 hover:bg-red-50 p-2 rounded-lg transition-colors duration-200" aria-label="Supprimer le post">
+                                                    onClick={() => handleDelete(post._id!)}
+                                                    className="text-red-600 hover:text-red-800 hover:bg-red-50 p-2 rounded-lg transition-colors duration-200"
+                                                    title="Supprimer le post"
+                                                >
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
                                             </div>
@@ -158,7 +169,7 @@ const Posts: React.FC = () => {
                     <div className="bg-gray-50 px-6 py-3 border-t border-gray-200">
                         <div className="flex items-center justify-between">
                             <div className="text-sm text-gray-500">
-                                Affichage de {posts.length} résultats
+                                Affichage de {searchPosts.length} résultats
                             </div>
                             <div className="flex space-x-2">
                                 <button className="px-3 py-1 text-xs border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-200">
