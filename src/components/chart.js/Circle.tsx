@@ -7,10 +7,22 @@ import {
     Legend,
     Title,
 } from "chart.js";
+import type { ChartOptions, ChartData } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
-const Circle = ({ sourceData }) => {
+interface DataPoint {
+    revenue: number;
+    loss: number;
+    expense: number;
+    investment: number;
+}
+
+interface CircleProps {
+    sourceData: DataPoint[];
+}
+
+const Circle: React.FC<CircleProps> = ({ sourceData }) => {
     if (!sourceData || sourceData.length === 0) return null;
 
     const totalRevenue = sourceData.reduce((sum, d) => sum + d.revenue, 0);
@@ -18,7 +30,7 @@ const Circle = ({ sourceData }) => {
     const totalExpense = sourceData.reduce((sum, d) => sum + d.expense, 0);
     const totalInvestment = sourceData.reduce((sum, d) => sum + d.investment, 0);
 
-    const data = useMemo(() => ({
+    const data: ChartData<"doughnut", number[], string> = useMemo(() => ({
         labels: ['Revenus', 'Pertes', 'Dépenses', 'Investissements'],
         datasets: [
             {
@@ -39,9 +51,9 @@ const Circle = ({ sourceData }) => {
                 borderWidth: 2,
             },
         ],
-    }), [sourceData]);
+    }), [totalRevenue, totalLoss, totalExpense, totalInvestment]);
 
-    const options = {
+    const options: ChartOptions<"doughnut"> = {
         responsive: true,
         plugins: {
             legend: {

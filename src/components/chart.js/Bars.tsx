@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
-
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -9,7 +8,8 @@ import {
     Title,
     Tooltip,
     Legend,
-} from 'chart.js';
+} from "chart.js";
+import type { ChartOptions, ChartData } from "chart.js";
 
 ChartJS.register(
     CategoryScale,
@@ -20,37 +20,51 @@ ChartJS.register(
     Legend
 );
 
-export default function Bars({ sourceData }) {
+interface DataPoint {
+    label: string;
+    revenue: number;
+    loss: number;
+}
+
+interface BarsProps {
+    sourceData: DataPoint[];
+}
+
+const Bars: React.FC<BarsProps> = ({ sourceData }) => {
     if (!sourceData || sourceData.length === 0) return null;
 
-    const data = useMemo(() => ({
+    const data: ChartData<"bar", number[], string> = useMemo(() => ({
         labels: sourceData.map((d) => d.label),
         datasets: [
             {
-                label: 'Revenues',
+                label: "Revenues",
                 data: sourceData.map((d) => d.revenue),
-                backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                backgroundColor: "rgba(54, 162, 235, 0.8)",
                 borderRadius: 5,
             },
             {
-                label: 'Pertes',
+                label: "Pertes",
                 data: sourceData.map((d) => d.loss),
-                backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                backgroundColor: "rgba(255, 99, 132, 0.8)",
                 borderRadius: 5,
             },
         ],
     }), [sourceData]);
 
-    const options = {
+    const options: ChartOptions<"bar"> = {
         responsive: true,
         plugins: {
-            legend: { position: 'top' },
+            legend: {
+                position: "top",
+            },
             title: {
                 display: true,
-                text: 'Représentation avec les barres'
+                text: "Représentation avec les barres",
             },
         },
     };
 
     return <Bar data={data} options={options} />;
-}
+};
+
+export default Bars;

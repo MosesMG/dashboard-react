@@ -1,16 +1,27 @@
-import { Link } from "react-router-dom";
+import { ChevronRight } from 'lucide-react';
+import React from 'react'
+import { Link } from 'react-router-dom';
 
-const Breadcrumb = ({ items }) => {
+interface BreadcrumbItem {
+    name: string;
+    link: string;
+}
+
+interface BreadcrumbProps {
+    items: BreadcrumbItem[];
+}
+
+const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
     if (!items || items.length === 0) return null;
 
     return (
-        <div className="flex items-center space-x-1 text-xs text-gray-500 mb-5">
-            {items.map((item, index) =>
+        <div className="flex items-center space-x-1 text-sm text-gray-500 mb-5">
+            {items.map((item, index) => (
                 <div key={index} className="flex items-center">
                     {index > 0 && (
-                        <i className="fa fa-chevron-right text-gray-600 text-xs mx-1"></i>
+                        <ChevronRight className="w-4 h-4 text-gray-600" />
                     )}
-                    {index && items.length -1 ? (
+                    {index === items.length - 1 ? (
                         <span className="text-gray-800 font-semibold">{item.name}</span>
                     ) : (
                         <Link to={item.link} className="font-semibold hover:text-blue-600 transition-colors">
@@ -18,7 +29,7 @@ const Breadcrumb = ({ items }) => {
                         </Link>
                     )}
                 </div>
-            )}
+            ))}
         </div>
     );
 }
