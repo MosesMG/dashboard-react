@@ -6,6 +6,7 @@ import axiosClient from '../../api/axios';
 import { Ban, Pencil, Search, Trash2, X } from 'lucide-react';
 import Dialog from '../../components/ui/Dialog';
 import Breadcrumb from '../../components/ui/Breadcrumb';
+import Pagination from '../../components/ui/Pagination';
 
 const Posts: React.FC = () => {
     const breadcrumbItems = [
@@ -33,6 +34,14 @@ const Posts: React.FC = () => {
     const searchPosts = posts.filter(post =>
         post.title.toLowerCase().includes(search.toLowerCase())
     );
+    
+    const [thisPage, setThisPage] = useState<number>(1);
+    const postsPerPage = 10;
+
+    const totalPages = Math.ceil(searchPosts.length / postsPerPage);
+    const indexOfLastPost = thisPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = searchPosts.slice(indexOfFirstPost, indexOfLastPost);
 
     const [showDialog, setShowDialog] = useState<boolean>(false);
     const [id, setId] = useState<string | null>(null);
@@ -114,7 +123,7 @@ const Posts: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {searchPosts.map(post => (
+                                {currentPosts.map(post => (
                                     <tr key={post._id} className="hover:bg-gray-50 transition-colors duration-200">
                                         <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                                             <div className="flex items-center">
@@ -123,7 +132,7 @@ const Posts: React.FC = () => {
                                                 </div>
                                                 <div className="ml-3 sm:ml-4">
                                                     <div className="text-sm font-medium text-gray-900 line-clamp-2">
-                                                        <Link to={`/posts/${post._id}`}>{post.title}</Link>
+                                                        <Link to={`/posts/${post._id}`}>{post.title.slice(0, 40)}</Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -171,6 +180,13 @@ const Posts: React.FC = () => {
                             <div className="text-sm text-gray-500">
                                 Affichage de {searchPosts.length} résultats
                             </div>
+
+                            <Pagination
+                                currentPage={thisPage}
+                                totalPages={totalPages}
+                                onPageChange={setThisPage}
+                            />
+
                             <div className="flex space-x-2">
                                 <button className="px-3 py-1 text-xs border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-200">
                                     Précédent
