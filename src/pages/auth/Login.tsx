@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PageTitle from "../../components/ui/PageTitle";
-// import useAuth from "../../context/AuthContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 
 interface Credentials {
@@ -10,36 +10,37 @@ interface Credentials {
 }
 
 const Login: React.FC = () => {
-    //     const { login, errors, setErrors } = useAuth();
+    const { login, loading } = useAuth();
 
-        const [form, setForm] = useState<Credentials>({
-            email: '', password: ''
-        });
-        const [loading, setLoading] = useState<boolean>(false);
-        const [showPassword, setShowPassword] = useState<boolean>(false);
-        // const navigate = useNavigate();
-    //     const location = useLocation();
+    const [form, setForm] = useState<Credentials>({
+        email: '', password: ''
+    });
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [errors, setErrors] = useState<string>("");
 
-    //     const from = location.state?.from || '/accueil';
+    const navigate = useNavigate();
 
-        const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            setForm({ ...form, [e.target.name]: e.target.value });
-            // setErrors({ ...errors, [e.target.name]: [] });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setErrors("");
+
+        try {
+            await login(form.email, form.password);
+            navigate("/accueil");
+        } catch (err) {
+            // setErrors((err as Error).message.valueOf());
+            // console.error(err?.message?.toString());
+            // setErrors((err as Error).message);
+            const message = (err as Error);
+            console.error(message);
+            setErrors(message.message);
+            console.log(message.message);
         }
-
-        const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            setLoading(true);
-            // setErrors({});
-
-            // const result = await login(form);
-
-            // if (result.success) {
-            //     navigate(from, { replace: true });
-            // } else {
-            //     setLoading(false);
-            // }
-        }
+    }
 
     return (
         <>
@@ -51,6 +52,8 @@ const Login: React.FC = () => {
                 <hr className="border-gray-400" />
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+                    {errors && <p className="text-red-500 text-xs text-center font-semibold -mt-3">{errors}</p>}
+
                     <div>
                         <label
                             htmlFor="email"
@@ -61,12 +64,12 @@ const Login: React.FC = () => {
 
                         <input
                             type="email"
+                            value={form.email}
                             onChange={handleChange}
                             id="email" name="email"
                             className="w-full p-2 text-sm border border-gray-400 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                             required
                         />
-                        {/* {errors.email && <span className="text-red-500 text-xs">{errors.email[0]}</span>} */}
                     </div>
 
                     <div>
@@ -80,6 +83,7 @@ const Login: React.FC = () => {
                         <div className="relative">
                             <input
                                 type={!showPassword ? "password" : "text"}
+                                value={form.password}
                                 onChange={handleChange}
                                 id="password" name="password"
                                 className="w-full p-2 text-sm border border-gray-400 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
@@ -94,7 +98,6 @@ const Login: React.FC = () => {
                                 {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                             </button>
                         </div>
-                        {/* {errors.password && <span className="text-red-500 text-xs">{errors.password[0]}</span>} */}
                     </div>
 
                     <button

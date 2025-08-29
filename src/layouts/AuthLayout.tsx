@@ -1,29 +1,25 @@
-import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom';
-import Sidebar from '../components/layout/Sidebar';
-import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const AuthLayout: React.FC = () => {
-    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+    const { user, token, loading } = useAuth();
 
-    const toggleSidebar = () => {
-        setIsSidebarCollapsed(!isSidebarCollapsed);
-    };
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            </div>
+        );
+    }
+
+    if (!user || !token) {
+        return <Navigate to="/login" replace />;
+    }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col">
-            <Sidebar isCollapsed={isSidebarCollapsed} onToggle={toggleSidebar} />
-
-            <Navbar isCollapsed={isSidebarCollapsed} />
-
-            {/* Contenu principal */}
-            <main className={`flex-1 transition-all duration-300 ${isSidebarCollapsed
-                    ? 'ml-16' : 'ml-64'} mt-16 mb-12 p-6`}>
-                <Outlet />
-            </main>
-
-            <Footer isCollapsed={isSidebarCollapsed} />
+        <div>
+            <Outlet />
         </div>
     );
 }

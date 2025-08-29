@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import useAuth from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import PageTitle from "../../components/ui/PageTitle";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
@@ -8,37 +8,42 @@ interface Credentials {
     name: string,
     email: string,
     password: string,
-    password_confirmation: string
+    password_confirmation: string,
 }
 
 const Register: React.FC = () => {
-    //     const { register, errors, setErrors } = useAuth();
+    const { register, loading } = useAuth();
 
     const [form, setForm] = useState<Credentials>({
         name: '', email: '',
         password: '', password_confirmation: ''
     });
-    const [loading, setLoading] = useState<boolean>(false);
-    //     const navigate = useNavigate();
+    const [errors, setErrors] = useState("");
+
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [showPassword1, setShowPassword1] = useState<boolean>(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
-        //         setErrors({ ...errors, [e.target.name]: [] });
     }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
-        //         setErrors({});
+        setErrors("");
 
-        //         const result = await register(form);
-        //         if (result.success) {
-        //             navigate('/accueil');
-        //         } else {
-        //             setLoading(false);
-        //         }
+        if (form.password !== form.password_confirmation) {
+            setErrors("Les mots de passe ne correspondent pas.");
+            return;
+        }
+
+        try {
+            await register(form.name, form.email, form.password);
+            navigate('/accueil');
+        } catch (err) {
+            setErrors((err as Error).message);
+            console.error(err);
+        }
     }
 
     return (
@@ -51,6 +56,8 @@ const Register: React.FC = () => {
                 <hr className="border-gray-400" />
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+                    {errors && <p className="text-red-500 text-xs text-center font-semibold -mt-3">{errors}</p>}
+
                     <div>
                         <label
                             htmlFor="name"
@@ -61,12 +68,12 @@ const Register: React.FC = () => {
 
                         <input
                             type="text"
+                            value={form.name}
                             onChange={handleChange}
                             id="name" name="name"
                             className="w-full p-2 text-sm border border-gray-400 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                             required
                         />
-                        {/* { errors.name && <span className="text-red-500 text-xs">{errors.name[0]}</span> } */}
                     </div>
 
                     <div>
@@ -79,12 +86,12 @@ const Register: React.FC = () => {
 
                         <input
                             type="email"
+                            value={form.email}
                             onChange={handleChange}
                             id="email" name="email"
                             className="w-full p-2 text-sm border border-gray-400 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                             required
                         />
-                        {/* { errors.email && <span className="text-red-500 text-xs">{errors.email[0]}</span> } */}
                     </div>
 
                     <div>
@@ -98,7 +105,8 @@ const Register: React.FC = () => {
                         <div className="relative">
                             <input
                                 type={!showPassword ? "password" : "text"}
-                                onChange={handleChange} 
+                                value={form.password}
+                                onChange={handleChange}
                                 id="password" name="password"
                                 className="w-full p-2 text-sm border border-gray-400 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                                 required
@@ -111,7 +119,6 @@ const Register: React.FC = () => {
                                 {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                             </button>
                         </div>
-                        {/* { errors.password && <span className="text-red-500 text-xs">{errors.password[0]}</span> } */}
                     </div>
 
                     <div>
@@ -125,6 +132,7 @@ const Register: React.FC = () => {
                         <div className="relative">
                             <input
                                 type={!showPassword1 ? "password" : "text"}
+                                value={form.password_confirmation}
                                 onChange={handleChange}
                                 id="password_confirmation"
                                 name="password_confirmation"
