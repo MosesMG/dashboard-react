@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PageTitle from "../../components/ui/PageTitle";
 import { useAuth } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 
 interface Credentials {
@@ -106,9 +105,9 @@ const Login: React.FC = () => {
 
                 <div className="mt-4 text-xs flex items-center justify-center space-x-2">
                     <p className="text-gray-600">Vous n'avez pas de compte ?</p>
-                    <Link to="/register" className="text-blue-500 hover:underline">
+                    <a href="/register" className="text-blue-500 hover:underline">
                         Inscrivez-vous
-                    </Link>
+                    </a>
                 </div>
             </div>
         </>

@@ -1,0 +1,86 @@
+[
+    {
+        "label": "Jan",
+        "revenue": 40000,
+        "loss": 30000,
+        "expense": 20000,
+        "investment": 10000
+    },
+    {
+        "label": "Fév",
+        "revenue": 39500,
+        "loss": 29000,
+        "expense": 19000,
+        "investment": 10000
+    },
+    {
+        "label": "Mar",
+        "revenue": 40500,
+        "loss": 31000,
+        "expense": 20000,
+        "investment": 8500
+    },
+    {
+        "label": "Avr",
+        "revenue": 39000,
+        "loss": 29500,
+        "expense": 21000,
+        "investment": 9500
+    },
+    {
+        "label": "Mai",
+        "revenue": 41000,
+        "loss": 30000,
+        "expense": 19000,
+        "investment": 10000
+    },
+    {
+        "label": "Jun",
+        "revenue": 40000,
+        "loss": 29000,
+        "expense": 20000,
+        "investment": 11000
+    },
+    {
+        "label": "Jul",
+        "revenue": 39500,
+        "loss": 31000,
+        "expense": 19500,
+        "investment": 10000
+    },
+    {
+        "label": "Aou",
+        "revenue": 40500,
+        "loss": 30500,
+        "expense": 20000,
+        "investment": 9000
+    },
+    {
+        "label": "Sept",
+        "revenue": 40000,
+        "loss": 30000,
+        "expense": 20000,
+        "investment": 10000
+    },
+    {
+        "label": "Oct",
+        "revenue": 39000,
+        "loss": 29500,
+        "expense": 19500,
+        "investment": 11000
+    },
+    {
+        "label": "Nov",
+        "revenue": 40500,
+        "loss": 30000,
+        "expense": 20000,
+        "investment": 9500
+    },
+    {
+        "label": "Déc",
+        "revenue": 40000,
+        "loss": 30500,
+        "expense": 19000,
+        "investment": 10500
+    }
+]

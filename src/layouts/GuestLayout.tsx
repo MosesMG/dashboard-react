@@ -7,8 +7,9 @@ const GuestLayout: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            <div className="flex flex-col items-center justify-center gap-y-5 min-h-screen">
+                <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-500"></div>
+                <p className="text-2xl font-semibold uppercase text-gray-700 animate-pulse">Chargement</p>
             </div>
         );
     }

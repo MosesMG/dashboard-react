@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import PageTitle from "../../components/ui/PageTitle";
-import { Link } from "react-router-dom";
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 
 interface Credentials {
@@ -108,6 +107,7 @@ const Register: React.FC = () => {
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 hover:cursor-pointer"
+                                tabIndex={-1}
                             >
                                 {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                             </button>
@@ -136,6 +136,7 @@ const Register: React.FC = () => {
                                 type="button"
                                 onClick={() => setShowPassword1(!showPassword1)}
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 hover:cursor-pointer"
+                                tabIndex={-1}
                             >
                                 {showPassword1 ? <Eye size={20} /> : <EyeOff size={20} />}
                             </button>
@@ -162,9 +163,9 @@ const Register: React.FC = () => {
 
                 <div className="mt-4 text-xs flex items-center justify-center space-x-2">
                     <p className="text-gray-600">Vous avez déjà un compte ?</p>
-                    <Link to="/login" className="text-blue-500 hover:underline">
+                    <a href="/login" className="text-blue-500 hover:underline">
                         Connectez-vous
-                    </Link>
+                    </a>
                 </div>
             </div>
         </>
