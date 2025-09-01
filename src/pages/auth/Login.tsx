@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PageTitle from "../../components/ui/PageTitle";
 import { useAuth } from "../../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 
 interface Credentials {
@@ -10,15 +10,12 @@ interface Credentials {
 }
 
 const Login: React.FC = () => {
-    const { login, loading } = useAuth();
+    const { login, loading, error } = useAuth();
 
     const [form, setForm] = useState<Credentials>({
         email: '', password: ''
     });
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [errors, setErrors] = useState<string>("");
-
-    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -26,20 +23,8 @@ const Login: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setErrors("");
 
-        try {
-            await login(form.email, form.password);
-            navigate("/accueil");
-        } catch (err) {
-            // setErrors((err as Error).message.valueOf());
-            // console.error(err?.message?.toString());
-            // setErrors((err as Error).message);
-            const message = (err as Error);
-            console.error(message);
-            setErrors(message.message);
-            console.log(message.message);
-        }
+        await login(form.email, form.password);
     }
 
     return (
@@ -52,7 +37,7 @@ const Login: React.FC = () => {
                 <hr className="border-gray-400" />
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-                    {errors && <p className="text-red-500 text-xs text-center font-semibold -mt-3">{errors}</p>}
+                    {error && <p className="text-red-500 text-xs text-center font-semibold -mt-3">{error}</p>}
 
                     <div>
                         <label

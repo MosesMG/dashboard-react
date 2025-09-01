@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import PageTitle from "../../components/ui/PageTitle";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 
 interface Credentials {
@@ -12,15 +12,14 @@ interface Credentials {
 }
 
 const Register: React.FC = () => {
-    const { register, loading } = useAuth();
+    const { register, loading, error } = useAuth();
 
     const [form, setForm] = useState<Credentials>({
         name: '', email: '',
         password: '', password_confirmation: ''
     });
-    const [errors, setErrors] = useState("");
+    const [passConfirm, setPassConfirm] = useState<string | null>("");
 
-    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [showPassword1, setShowPassword1] = useState<boolean>(false);
 
@@ -30,20 +29,13 @@ const Register: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setErrors("");
 
         if (form.password !== form.password_confirmation) {
-            setErrors("Les mots de passe ne correspondent pas.");
+            setPassConfirm("Les mots de passe ne correspondent pas.");
             return;
         }
 
-        try {
-            await register(form.name, form.email, form.password);
-            navigate('/accueil');
-        } catch (err) {
-            setErrors((err as Error).message);
-            console.error(err);
-        }
+        await register(form.name, form.email, form.password);
     }
 
     return (
@@ -56,7 +48,8 @@ const Register: React.FC = () => {
                 <hr className="border-gray-400" />
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-                    {errors && <p className="text-red-500 text-xs text-center font-semibold -mt-3">{errors}</p>}
+                    {passConfirm && <p className="text-red-500 text-xs text-center font-semibold -mt-3">{passConfirm}</p>}
+                    {error && <p className="text-red-500 text-xs text-center font-semibold -mt-3">{error}</p>}
 
                     <div>
                         <label

@@ -3,7 +3,7 @@ import type { AuthContextType, LoginResponse, RegisterResponse } from '../types/
 import type { JwtProps, User } from "../types/user";
 import { jwtDecode } from "jwt-decode";
 import axiosClient from "../services/api.service";
-import type { AxiosError, AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 import axios from "axios";
 
 interface AuthProviderProps {
@@ -18,6 +18,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     // Initialisation : vérifier si un token existe au démarrage
     useEffect(() => {
@@ -32,7 +33,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     const userData = await getUser(payload.id);
                     setUser(userData);
                     // Optionnel : Vérifier que le token est toujours valide
-                    // en faisant une requête à un endpoint protégé
                     const decoded = jwtDecode<JwtProps>(oldToken);
 
                     if (decoded.exp * 1000 < Date.now()) {
@@ -53,7 +53,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         initAuth();
     }, []);
 
-    const login = async (email: string, password: string): Promise<void> => {
+    const login = async (
+        email: string,
+        password: string,
+        navigate?: (path: string) => void
+    ): Promise<void> => {
         try {
             setLoading(true);
 
@@ -69,9 +73,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
             localStorage.setItem('token', newToken);
 
+            if (navigate) navigate('/accueil');
+
         } catch (error: any) {
-            const errorMessage = error.response?.data?.message || 'Erreur lors de la connexion';
-            throw new Error(errorMessage);
+            if (error.response && error.response.data) {
+                setError(error.response.data.message);
+            } else {
+                setError("Erreur lors de la connexion.");
+            }
         } finally {
             setLoading(false);
         }
@@ -81,6 +90,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         name: string,
         email: string,
         password: string,
+        navigate?: (path: string) => void,
     ): Promise<void> => {
         try {
             setLoading(true);
@@ -96,13 +106,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setToken(newToken);
             setUser(newUser);
 
-            // Sauvegarder dans localStorage
             localStorage.setItem('token', newToken);
 
-        } catch (error: unknown) {
-            if (axios.isAxiosError(error)) {
-                const errorMessage = error.response?.data?.message;
-                throw new Error(errorMessage);
+            if (navigate) navigate('/accueil');
+
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                setError(error.response.data.message);
+            } else {
+                setError("Erreur lors de l'inscription.")
             }
         } finally {
             setLoading(false);
@@ -133,6 +145,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         user,
         token,
         loading,
+        error,
         login,
         register,
         logout,

@@ -268,9 +268,9 @@ const Dashboard: React.FC = () => {
                                             <span>Settings</span>
                                         </a>
                                         <hr className="my-1 border-gray-200" />
-                                        <p className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 transition-colors duration-200">
-                                            <ChevronRight className="w-4 h-4 text-gray-500" />
-                                            <span onClick={handleLogout}>Déconnexion</span>
+                                        <p className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 hover:cursor-pointer transition-colors duration-200">
+                                            <ChevronRight className="w-4 h-4 text-red-500" />
+                                            <span onClick={handleLogout} className='text-red-500'>Déconnexion</span>
                                         </p>
                                     </div>
                                 )}
