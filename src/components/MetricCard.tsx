@@ -3,7 +3,7 @@ import type { MetricCardProps } from "../types/home";
 import { TrendingDown, TrendingUp } from "lucide-react";
 
 const MetricCard: React.FC<MetricCardProps> = ({ title, value, change, changeType, icon, iconBg }) => (
-    <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+    <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
         <div className="flex items-center justify-between">
             <div>
                 <p className="text-gray-500 text-sm font-medium">{title}</p>

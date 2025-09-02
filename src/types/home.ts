@@ -19,3 +19,12 @@ export interface SalesRecord {
     amount: string;
     status: 'completed' | 'pending' | 'failed';
 }
+
+export interface PostProps {
+    _id?: string;
+    title: string;
+    content: string;
+    author: string;
+    date: string;
+    status: boolean;
+}

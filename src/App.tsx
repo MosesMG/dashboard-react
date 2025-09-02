@@ -4,6 +4,8 @@ import GuestLayout from "./layouts/GuestLayout";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import AuthLayout from "./layouts/AuthLayout";
+import ListPosts from "./pages/posts/ListPosts";
+import FormPost from "./pages/posts/FormPost";
 
 function App() {
     return (
@@ -16,6 +18,8 @@ function App() {
                 
                 <Route element={<AuthLayout />}>
                     <Route path="/accueil" element={<Dashboard />} />
+                    <Route path="/posts" element={<ListPosts />} />
+                    <Route path="/posts/ajouter" element={<FormPost />} />
                 </Route>
             </Routes>
         </BrowserRouter>

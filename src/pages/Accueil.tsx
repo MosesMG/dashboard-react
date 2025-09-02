@@ -207,7 +207,7 @@ const Accueil: React.FC = () => {
 
             {/* Charts Placeholder */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
                     <div className="px-6 py-4 border-b border-gray-200">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold text-gray-900">Revenue Overview</h3>
@@ -228,7 +228,7 @@ const Accueil: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
                     <div className="px-6 py-4 border-b border-gray-200">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold text-gray-900">Traffic Sources</h3>
@@ -245,7 +245,7 @@ const Accueil: React.FC = () => {
 
             {/* Recent Activity & Customers */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="bg-white rounded-xl border border-gray-200 shadow-sm lg:col-span-2 hover:shadow-md transition-shadow duration-200">
+                <div className="flex flex-col bg-white rounded-lg border border-gray-200 shadow-sm lg:col-span-2 hover:shadow-md transition-shadow duration-200">
                     <div className="px-6 py-4 border-b border-gray-200">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold text-gray-900">Recent Sales</h3>
@@ -277,14 +277,14 @@ const Accueil: React.FC = () => {
                                                     className="w-8 h-8 rounded-full object-cover mr-3"
                                                 />
                                                 <div>
-                                                    <div className="font-medium text-gray-900">{sale.customer.name}</div>
-                                                    <div className="text-gray-500 text-sm">{sale.customer.email}</div>
+                                                    <div className="font-medium text-sm text-gray-900">{sale.customer.name}</div>
+                                                    <div className="text-gray-500 text-xs">{sale.customer.email}</div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="py-4 px-6 whitespace-nowrap text-gray-600">{sale.product}</td>
-                                        <td className="py-4 px-6 whitespace-nowrap text-gray-600">{sale.date}</td>
-                                        <td className="py-4 px-6 whitespace-nowrap font-medium text-gray-900">{sale.amount}</td>
+                                        <td className="py-4 px-6 whitespace-nowrap text-sm text-gray-600">{sale.product}</td>
+                                        <td className="py-4 px-6 whitespace-nowrap text-sm text-gray-600">{sale.date}</td>
+                                        <td className="py-4 px-6 whitespace-nowrap text-sm font-medium text-gray-900">{sale.amount}</td>
                                         <td className="py-4 px-6 whitespace-nowrap">
                                             <StatusBadge status={sale.status} />
                                         </td>
@@ -312,7 +312,7 @@ const Accueil: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
                     <div className="px-6 py-4 border-b border-gray-200">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-semibold text-gray-900">Top Products</h3>
@@ -321,18 +321,19 @@ const Accueil: React.FC = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="p-6">
-                        <div className="space-y-4">
+                    <div className="p-4">
+                        <div className="space-y-4 overflow-y-auto">
                             {[
                                 { name: 'Premium Plan (Annual)', sales: '$12,450', growth: '+18%' },
                                 { name: 'Pro Plan (Monthly)', sales: '$8,230', growth: '+12%' },
                                 { name: 'Basic Plan (Monthly)', sales: '$5,680', growth: '+8%' },
-                                { name: 'Enterprise Plan', sales: '$4,120', growth: '+5%' }
+                                { name: 'Enterprise Plan', sales: '$4,120', growth: '+5%' },
+                                { name: 'Startup Plan', sales: '$2,500', growth: '+10%' }
                             ].map((product, index) => (
                                 <div key={index} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                                     <div>
-                                        <h4 className="font-medium text-gray-900">{product.name}</h4>
-                                        <p className="text-sm text-gray-500">{product.sales}</p>
+                                        <h4 className="font-medium text-gray-900 text-sm">{product.name}</h4>
+                                        <p className="text-xs text-gray-500">{product.sales}</p>
                                     </div>
                                     <span className="text-sm font-medium text-green-600">{product.growth}</span>
                                 </div>
