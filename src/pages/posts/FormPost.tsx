@@ -46,7 +46,7 @@ const FormPost: React.FC = () => {
                 })
                 .catch((err: any) => {
                     if (err.response && err.response.data) {
-                        setErrors(err.response.data.message);
+                        setErrors({ message: err.response.data.message});
                     } else {
                         setErrors({ message: "Erreur de récupération."});
                     }

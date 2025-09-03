@@ -6,6 +6,8 @@ import Register from "./pages/auth/Register";
 import AuthLayout from "./layouts/AuthLayout";
 import ListPosts from "./pages/posts/ListPosts";
 import FormPost from "./pages/posts/FormPost";
+import ListCategories from "./pages/categories/ListCategories";
+import FormCategory from "./pages/categories/FormCategory";
 
 function App() {
     return (
@@ -20,6 +22,10 @@ function App() {
                     <Route path="/accueil" element={<Dashboard />} />
                     <Route path="/posts" element={<ListPosts />} />
                     <Route path="/posts/ajouter" element={<FormPost />} />
+
+                    <Route path="/categories" element={<ListCategories />} />
+                    <Route path="/categories/ajouter" element={<FormCategory />} />
+                    <Route path="/categories/:id/editer" element={<FormCategory />} />
                 </Route>
             </Routes>
         </BrowserRouter>
