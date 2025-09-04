@@ -1,4 +1,4 @@
-import { BarChart3, FileText, Home, Layers, Menu, Settings, Users } from 'lucide-react';
+import { BarChart3, FileText, Home, Layers, Layers2, Menu, Settings, Users } from 'lucide-react';
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ const Sidebar: React.FC<SideComponents> = ({ isCollapsed, onToggle }) => {
         { icon: Home, label: 'Accueil', href: '/accueil' },
         { icon: FileText, label: 'Posts', href: '/posts' },
         { icon: Layers, label: 'Catégories', href: '/categories' },
+        { icon: Layers2, label: 'Articles', href: '/articles' },
         { icon: BarChart3, label: 'Analytics', href: '#' },
         { icon: Users, label: 'Utilisateurs', href: '/utilisateurs' },
         { icon: Settings, label: 'Paramètres', href: '#' },

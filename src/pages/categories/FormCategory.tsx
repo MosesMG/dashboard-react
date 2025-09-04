@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react"
 import PageTitle from "../../components/ui/PageTitle";
-import type { IBreadcrumbItem, ICategorie } from "../../types/home";
+import type { ICategorie } from "../../types/home";
+import type { IBreadcrumbItem } from "../../types/ui";
 import Breadcrumb from "../../components/ui/Breadcrumb";
 import { useNavigate, useParams } from "react-router-dom";
 import { Ban, Loader2, Save } from "lucide-react";
 import axiosClient from "../../services/api.service";
+import { useNotification } from "../../context/NotificationContext";
 
 interface CategoryErrors {
     name?: string;
@@ -15,6 +17,7 @@ interface CategoryErrors {
 const FormCategory: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const updating = !!id;
+    const { addNotification } = useNotification();
 
     const breadcrumbItems: IBreadcrumbItem[] = [
         { name: "Accueil", link: "/accueil" },
@@ -60,11 +63,13 @@ const FormCategory: React.FC = () => {
         setErrors({});
 
         try {
+            let response;
             if (updating) {
-                await axiosClient.put(`/api/categories/${id}`, form);
+                response = await axiosClient.put(`/api/categories/${id}`, form);
             } else {
-                await axiosClient.post("/api/categories", form);
+                response = await axiosClient.post("/api/categories", form);
             }
+            addNotification(response.data.message || (updating ? "Catégorie modifiée avec succès !" : "Catégorie créée avec succès !"));
             navigate("/categories");
         } catch (error: any) {
             if (error.response && error.response.data) {

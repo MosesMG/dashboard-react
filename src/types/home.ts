@@ -1,8 +1,3 @@
-export interface IBreadcrumbItem {
-    name: string;
-    link: string;
-}
-
 export interface MetricCardProps {
     title: string;
     value: string;
@@ -38,4 +33,12 @@ export interface ICategorie {
     _id?: string;
     name: string;
     description: string
+}
+
+export interface IArticle {
+    _id?: string;
+    name: string;
+    price: number;
+    quantity: number;
+    // category: Types
 }

@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, type FormEvent } from "react"
 import PageTitle from "../../components/ui/PageTitle";
-import type { IBreadcrumbItem, ICategorie } from "../../types/home";
+import type { ICategorie } from "../../types/home";
+import type { IBreadcrumbItem } from "../../types/ui";
 import Breadcrumb from "../../components/ui/Breadcrumb";
 import { Link } from "react-router-dom";
 import { Ban, Plus, Search, Trash2, X } from "lucide-react";
 import axiosClient from "../../services/api.service";
 import Pagination from "../../components/ui/Pagination";
 import Dialog from "../../components/ui/Dialog";
+import { useNotification } from "../../context/NotificationContext";
 
 const ListCategories: React.FC = () => {
+    const { addNotification } = useNotification();
+
     const breadcrumbItems: IBreadcrumbItem[] = [
         { name: "Accueil", link: "" },
         { name: "Catégories", link: "" }
@@ -56,17 +60,19 @@ const ListCategories: React.FC = () => {
         setShowDialog(true);
     }
 
-    const confirmDelete = async () => {
+    const confirmDelete = async (e: FormEvent) => {
+        e.preventDefault();
         if (!id) return;
         try {
             await axiosClient.delete(`/api/categories/${id}`);
             setShowDialog(false);
+            fetchCategories();
+            addNotification("Catégorie supprimée avec succès.")
         } catch (err) {
             setReqFailed(true);
             console.log(err);
         } finally {
             setId(null);
-            fetchCategories();
         }
     }
 
