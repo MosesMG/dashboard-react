@@ -9,9 +9,9 @@ import FormPost from "./pages/posts/FormPost";
 import ListCategories from "./pages/categories/ListCategories";
 import FormCategory from "./pages/categories/FormCategory";
 import ListArticles from "./pages/articles/ListArticles";
-import { AlertSystem } from "./components/AlertSystem";
 import { NotificationProvider } from "./context/NotificationContext";
 import { NotifContainer } from "./components/NotifContainer";
+import FormArticle from "./pages/articles/FormArticle";
 
 function App() {
     return (
@@ -34,8 +34,7 @@ function App() {
                         <Route path="/categories/:id/editer" element={<FormCategory />} />
 
                         <Route path="/articles" element={<ListArticles />} />
-                        
-                        <Route path="/alert" element={<AlertSystem userId="user12345" />} />
+                        <Route path="/articles/ajouter" element={<FormArticle />} />
                     </Route>
                 </Routes>
 

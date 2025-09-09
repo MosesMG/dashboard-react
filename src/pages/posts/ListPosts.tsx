@@ -77,7 +77,7 @@ const ListPosts: React.FC = () => {
                     </p> :
                     
                     <>
-                        <div className="hidden md:flex items-center justify-between max-w-lg mx-auto mt-4 mb-0">
+                        <div className="hidden md:flex items-center justify-between max-w-lg mx-auto mt-4 mb-1">
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
@@ -110,8 +110,8 @@ const ListPosts: React.FC = () => {
     
                         <div className="container mx-auto px-4 pt-4">
                             <div className="overflow-x-auto shadow-lg rounded-md">
-                                <table className="min-w-full bg-white dark:bg-gray-800">
-                                    <thead className="bg-gray-100 dark:bg-gray-700">
+                                <table className="min-w-full bg-white">
+                                    <thead className="bg-gray-100">
                                         <tr>
                                             <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                 Titre
@@ -133,11 +133,11 @@ const ListPosts: React.FC = () => {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                    <tbody className="divide-y divide-gray-200">
                                         {currentPosts.map((post) => (
                                             <tr
                                                 key={post._id}
-                                                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                                                className="hover:bg-gray-50 transition-colors duration-200"
                                             >
                                                 <td className="px-4 py-4 text-sm text-gray-900">
                                                     {post.title.slice(0, 30)}
@@ -159,13 +159,13 @@ const ListPosts: React.FC = () => {
                                                 </td>
                                                 <td className="px-4 py-4 text-sm">
                                                     <div className="flex justify-center items-center gap-x-3">
-                                                        <button className="text-blue-600 dark:text-blue-400 hover:underline mr-3">
+                                                        <button className="text-blue-600 hover:underline mr-3">
                                                             Voir
                                                         </button>
-                                                        <button className="text-yellow-600 dark:text-yellow-400 hover:underline mr-3">
+                                                        <button className="text-yellow-600 hover:underline mr-3">
                                                             Éditer
                                                         </button>
-                                                        <button className="text-red-600 dark:text-red-400 hover:underline">
+                                                        <button className="text-red-600 hover:underline">
                                                             Supprimer
                                                         </button>
                                                     </div>

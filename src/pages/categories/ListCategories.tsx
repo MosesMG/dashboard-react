@@ -85,9 +85,7 @@ const ListCategories: React.FC = () => {
                 <div className="flex justify-between items-center lg:px-24">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900">Liste des catégories</h1>
-                        <p className="text-gray-500 mt-1">
-                            Gestion des catégories
-                        </p>
+                        <p className="text-gray-500 mt-1">Gestion des catégories</p>
                     </div>
 
                     <div>
@@ -107,7 +105,7 @@ const ListCategories: React.FC = () => {
                     </p> :
                     
                     <>
-                        <div className="hidden md:flex items-center justify-between max-w-lg mx-auto mt-4 mb-0">
+                        <div className="hidden md:flex items-center justify-between max-w-lg mx-auto mt-4 mb-1">
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
@@ -157,11 +155,11 @@ const ListCategories: React.FC = () => {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                    <tbody className="divide-y divide-gray-200">
                                         {currentCategories.map((categ) => (
                                             <tr
                                                 key={categ._id}
-                                                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                                                className="hover:bg-gray-50 transition-colors duration-200"
                                             >
                                                 <td className="px-4 py-4 text-sm text-gray-900">
                                                     {categ.name}
