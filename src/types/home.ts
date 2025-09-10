@@ -40,5 +40,5 @@ export interface IArticle {
     name: string;
     price: number;
     quantity: number;
-    category: string
+    category: ICategorie | string;
 }

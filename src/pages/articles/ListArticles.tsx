@@ -2,9 +2,14 @@ import PageTitle from "../../components/ui/PageTitle";
 import type { IBreadcrumbItem } from "../../types/ui";
 import Breadcrumb from "../../components/ui/Breadcrumb";
 import { Link } from "react-router-dom";
-import { Plus, Search } from "lucide-react";
-import { useState } from "react";
-import type { IArticle } from "../../types/home";
+import { Pen, Plus, Search, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import type { IArticle, ICategorie } from "../../types/home";
+import axiosClient from "../../services/api.service";
+
+interface ArticleCategory extends IArticle {
+   category: ICategorie
+}
 
 const ListArticles = () => {
    const breadcrumbItems: IBreadcrumbItem[] = [
@@ -12,9 +17,25 @@ const ListArticles = () => {
       { name: "Articles", link: "" }
    ];
 
-   const [artciles, setArticles] = useState<IArticle[]>([]);
+   const [artciles, setArticles] = useState<ArticleCategory[]>([]);
    const [error, setError] = useState<string>("");
 
+   const fetchArticles = async () => {
+      try {
+         const response = await axiosClient.get("/api/articles");
+         setArticles(response.data)
+      } catch (err: any) {
+         if (err.response && err.response.data) {
+            setError(err.response.data.message)
+         } else {
+            setError("Erreur de chargement des articles.");
+         }
+      }
+   }
+
+   useEffect(() => {
+      fetchArticles()
+   }, []);
 
    return (
       <>
@@ -94,7 +115,45 @@ const ListArticles = () => {
                                  </th>
                               </tr>
                            </thead>
-                           <tbody></tbody>
+                           <tbody className="divide-y divide-gray-200">
+                              {artciles.map((article) => (
+                                 <tr
+                                    key={article._id}
+                                    className="hover:bg-gray-50 transition-colors duration-200"
+                                 >
+                                    <td className="px-4 py-4 text-sm text-gray-900">{article.category.name}</td>
+                                    <td className="px-4 py-4 text-sm text-gray-900">{article.name}</td>
+                                    <td className="px-4 py-4 text-sm text-gray-900">{article.price}</td>
+                                    <td className="px-4 py-4 text-sm text-gray-900">{article.quantity}</td>
+                                    <td className="px-4 py-4 text-gray-900">
+                                       <div className="flex justify-center items-center gap-x-4">
+                                          <Link
+                                             to={`/articles/${article._id}`}
+                                             className="bg-green-600 px-2.5 py-0.5 rounded-md"
+                                          >
+                                             <span className="text-xs text-white">Détails</span>
+                                          </Link>
+
+                                          <Link
+                                             to={`/articles/${article._id}/editer`}
+                                             title="Éditer"
+                                             className="bg-blue-500 px-2.5 py-2 rounded-md"
+                                          >
+                                             <Pen className="w-3.5 h-3.5 text-white" />
+                                          </Link>
+
+                                          <button
+                                             type="button"
+                                             className="bg-red-500/90 px-2.5 py-2 rounded-md"
+                                             title="Supprimer"
+                                          >
+                                             <Trash2 className="w-3.5 h-3.5 text-white" />
+                                          </button>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              ))}
+                           </tbody>
                         </table>
                      </div>
                   </div>

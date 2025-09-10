@@ -12,6 +12,7 @@ import ListArticles from "./pages/articles/ListArticles";
 import { NotificationProvider } from "./context/NotificationContext";
 import { NotifContainer } from "./components/NotifContainer";
 import FormArticle from "./pages/articles/FormArticle";
+import SingleArticle from "./pages/articles/SingleArticle";
 
 function App() {
     return (
@@ -35,6 +36,8 @@ function App() {
 
                         <Route path="/articles" element={<ListArticles />} />
                         <Route path="/articles/ajouter" element={<FormArticle />} />
+                        <Route path="/articles/:id" element={<SingleArticle />} />
+                        <Route path="/articles/:id/editer" element={<FormArticle />} />
                     </Route>
                 </Routes>
 
