@@ -15,7 +15,7 @@ const Sidebar: React.FC<SideComponents> = ({ isCollapsed, onToggle }) => {
         { icon: FileText, label: 'Posts', href: '/posts' },
         { icon: Layers, label: 'Catégories', href: '/categories' },
         { icon: Layers2, label: 'Articles', href: '/articles' },
-        { icon: BarChart3, label: 'Analytics', href: '#' },
+        { icon: BarChart3, label: 'Analyses', href: '/analyses' },
         { icon: Users, label: 'Utilisateurs', href: '/utilisateurs' },
         { icon: Settings, label: 'Paramètres', href: '#' },
     ];

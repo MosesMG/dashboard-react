@@ -13,6 +13,9 @@ import { NotificationProvider } from "./context/NotificationContext";
 import { NotifContainer } from "./components/NotifContainer";
 import FormArticle from "./pages/articles/FormArticle";
 import SingleArticle from "./pages/articles/SingleArticle";
+import Homepage from "./pages/Homepage";
+import Analyses from "./pages/analyses/Analyses";
+import Scanner from "./pages/analyses/Scanner";
 
 function App() {
     return (
@@ -20,9 +23,9 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route element={<GuestLayout />}>
+                        <Route path="/" element={<Homepage />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
-
                     </Route>
                     
                     <Route element={<AuthLayout />}>
@@ -38,6 +41,9 @@ function App() {
                         <Route path="/articles/ajouter" element={<FormArticle />} />
                         <Route path="/articles/:id" element={<SingleArticle />} />
                         <Route path="/articles/:id/editer" element={<FormArticle />} />
+
+                        <Route path="/analyses" element={<Analyses />} />
+                        <Route path="/analyses/scan" element={<Scanner />} />
                     </Route>
                 </Routes>
 
